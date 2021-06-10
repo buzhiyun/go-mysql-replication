@@ -4,11 +4,10 @@ GOEXEC = go
 CGO = CGO_ENABLED=0
 GOARCH = GOARCH=amd64
 LINUX_GOOS = GOOS=linux
+WINDOWS_GOOS = GOOS=windows
 
 .PHONY: build start push test
-#
-#build: build-version
-#
+
 build-web:
 	cd web && yarn run build
 
@@ -18,10 +17,13 @@ gen-bindata: build-web
 	cp -r web/dist ./assets
 	go-bindata ./assets/...
 
-build-linux: gen-bindata
+build-linux:
+	GOPROXY=https://goproxy.cn,direct GO111MODULE=on ${GOEXEC} mod vendor
 	${CGO} ${GOARCH} ${LINUX_GOOS} ${GOEXEC} build -o bin/go-mysql-replication
-	mv  bin/go-mysql-replication bin/go-mysql-transfer
-	md5 bin/*
+
+build-windows:
+	GOPROXY=https://goproxy.cn,direct GO111MODULE=on ${GOEXEC} mod vendor
+	${CGO} ${GOARCH} ${WINDOWS_GOOS} ${GOEXEC} build -o bin/go-mysql-replication.exe
 
 
 test:
