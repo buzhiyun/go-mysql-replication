@@ -1,0 +1,24 @@
+{
+	"name": "default",
+	"version": "0.1.0",
+	"private": true,
+	"author": "buzhiyun",
+	"description": "binlog 跟踪",
+	"scripts": {
+		"serve": "vue-cli-service serve",
+		"build": "vue-cli-service build"
+	},
+	"dependencies": {
+		"axios": "^0.21.1",
+		"core-js": "^2.6.5",
+		"echarts": "^4.1.0",
+		"view-design": "^4.5.0",
+		"vue": "^2.6.10",
+		"vue-echarts": "4.0.2"
+	},
+	"devDependencies": {
+		"@vue/cli-plugin-babel": "^3.8.0",
+		"@vue/cli-service": "^3.8.0",
+		"vue-template-compiler": "^2.6.12"
+	}
+}

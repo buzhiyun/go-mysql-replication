@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+    <defs>
+        <style>
+            .cls-1{fill:#707070}.cls-2{fill:#d5001f;stroke:#fff}.cls-3{stroke:none}.cls-4{fill:none}
+        </style>
+    </defs>
+    <g id="OFF" transform="translate(-480 -103)">
+        <circle id="Ellipse_6" cx="12" cy="12" r="12" class="cls-1" data-name="Ellipse 6" transform="translate(480 103)"/>
+        <g id="Ellipse_5" class="cls-2" data-name="Ellipse 5" transform="translate(482 105)">
+            <circle cx="10" cy="10" r="10" class="cls-3"/>
+            <circle cx="10" cy="10" r="9.5" class="cls-4"/>
+        </g>
+    </g>
+</svg>
