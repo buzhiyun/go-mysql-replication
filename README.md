@@ -76,40 +76,28 @@ $ go build -o bin/go-mysql-replication
   charset : utf8
   slave_id: 1001 #slave ID
   flavor: mysql #mysql or mariadb,默认mysql
-  
   from_gtid_file: gtid.txt
-  
   #只dump 某些db
   only_dbs:
     - log
-  
   # 只dump 某些table , 一个db只能配置一组
   #only_tables:
   #  - log_202106
-  
   logger:
     level: info #日志级别；支持：debug|info|warn|error，默认info
-  
   #maxprocs: 50 #并发协（线）程数量，默认为: CPU核数*2；一般情况下不需要设置此项
   bulk_size: 100 #每批处理数量，不写默认100，可以根据带宽、机器性能等调整;如果是全量数据初始化时redis建议设为1000，其他接收端酌情调大
-  
-  
   #web admin相关配置
   enable_web_admin: true #是否启用web admin，默认false
   web_admin_port: 8080 #web监控端口
-  
-  
   #目标类型
-  target: kafka # 支持redis、mongodb、elasticsearch、rocketmq、kafka、rabbitmq
-  
+  target: kafka # 以后再支持redis、mongodb、elasticsearch、rocketmq、rabbitmq
   #kafka连接配置
   kafka_addrs: kafka.local:9092 #kafka连接地址，多个用逗号分隔
   kafka_topic: log
   kafka_version: 0.10.2.2
   #kafka_sasl_user:  #kafka SASL_PLAINTEXT认证模式 用户名
   #kafka_sasl_password: #kafka SASL_PLAINTEXT认证模式 密码
-  
-  
   notice: # 告警通知
     email:    # 邮件
       host: smtp.exmail.qq.com

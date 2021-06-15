@@ -9,7 +9,7 @@ RUN  yarn config set registry https://registry.npm.taobao.org && \
 
 
 # 生成最终运行程序
-FROM golang:1.14 as compiler
+FROM golang:1.14-alpine3.13 as compiler
 ENV GO111MODULE=on \
     GOPROXY=https://goproxy.cn,direct \
     CGO_ENABLED=0
@@ -22,7 +22,7 @@ RUN ls -al /app/assets && go get -u github.com/go-bindata/go-bindata/... && \
 
 
 # 最终镜像
-FROM golang:1.14-alpine
+FROM alpine:3.13
 WORKDIR /app
 COPY --from=compiler /app/bin /app
 CMD ["/app/go-mysql-replication","-c","config.yml"]
