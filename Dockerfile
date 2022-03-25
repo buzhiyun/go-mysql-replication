@@ -18,7 +18,7 @@ COPY --from=web-build /app/web/dist /app/assets
 WORKDIR /app
 # 这里我比较懒，还是直接把前端的包bindata到程序里吧
 RUN ls -al /app/assets && go get -u github.com/go-bindata/go-bindata/... && \
-  go-bindata ./assets/... && go build -o bin/go-mysql-replication && cp config.yml bin/
+  go-bindata ./assets/... && go build  -ldflags '-s -w' -o bin/go-mysql-replication && cp config.yml bin/
 
 
 # 最终镜像
