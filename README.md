@@ -85,7 +85,7 @@ $ go build -o bin/go-mysql-replication
   #  - log_202106
 
   logger:
-  level: info #日志级别；支持：debug|info|warn|error，默认info
+    level: info #日志级别；支持：debug|info|warn|error，默认info
   
   #maxprocs: 50 #并发协（线）程数量，默认为: CPU核数*2；一般情况下不需要设置此项
   bulk_size: 100 #每批处理数量，不写默认100，可以根据带宽、机器性能等调整;如果是全量数据初始化时redis建议设为1000，其他接收端酌情调大
@@ -108,9 +108,9 @@ $ go build -o bin/go-mysql-replication
   
   
   notice: # 告警通知
-  septnet_msg:
-  api: http://septnet/
-  to_users: "177" 
+    septnet_msg:
+      api: http://septnet/
+      to_users: "177" 
   ```
 
 
