@@ -110,7 +110,7 @@ $ go build -o bin/go-mysql-replication
   notice: # 告警通知
     septnet_msg:
       api: http://septnet/
-      to_users: "177" 
+      to_users: "177"   # 接收企业微信的用户ID，多个用户用|分隔
   ```
 
 

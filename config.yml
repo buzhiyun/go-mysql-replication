@@ -43,4 +43,4 @@ kafka_version: 0.10.2.2
 notice: # 告警通知
   septnet_msg:
     api: http://septnet/
-    to_users: "177"
+    to_users: "177"  # 多个用户用|分隔
