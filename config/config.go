@@ -1,8 +1,8 @@
 package config
 
 import (
+	"errors"
 	"github.com/buzhiyun/go-mysql-replication/utils"
-	"github.com/juju/errors"
 	"github.com/kataras/golog"
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
@@ -48,6 +48,11 @@ type EmailConfig struct {
 	LoginUser   string   `yaml:"login_user"`
 	LoginPasswd string   `yaml:"login_passwd"`
 	ToUser      []string `yaml:"to_user"`
+}
+
+type SeptnetMsg struct {
+	Api     string `yaml:"api"`
+	ToUsers string `yaml:"to_users"`
 }
 
 type DingtalkConfig struct {
@@ -107,6 +112,7 @@ type Config struct {
 		Email           EmailConfig      `yaml:"email"`
 		DingtalkRobot   DingtalkConfig   `yaml:"dingtalk_robot"`
 		WechatWorkRobot WechatWorkConfig `yaml:"wechat_work_robot"`
+		SeptnetMsg      SeptnetMsg       `yaml:"septnet_msg"`
 	} `yaml:"notice""`
 }
 
@@ -115,17 +121,17 @@ var SchemaMap, TableMap map[string]interface{}
 func initConfig(fileName string) error {
 	data, err := ioutil.ReadFile(fileName)
 	if err != nil {
-		return errors.Trace(err)
+		return err
 	}
 
 	var c Config
 
 	if err := yaml.Unmarshal(data, &c); err != nil {
-		return errors.Trace(err)
+		return err
 	}
 
 	if err := checkConfig(&c); err != nil {
-		return errors.Trace(err)
+		return err
 	}
 
 	//switch strings.ToUpper(c.Target) {
@@ -166,27 +172,28 @@ func initConfig(fileName string) error {
 
 func checkConfig(c *Config) error {
 	if c.Target == "" {
-		return errors.Errorf("empty target not allowed")
+
+		return errors.New("empty target not allowed")
 	}
 
 	if c.Addr == "" {
-		return errors.Errorf("empty addr not allowed")
+		return errors.New("empty addr not allowed")
 	}
 
 	if c.User == "" {
-		return errors.Errorf("empty user not allowed")
+		return errors.New("empty user not allowed")
 	}
 
 	if c.Password == "" {
-		return errors.Errorf("empty pass not allowed")
+		return errors.New("empty pass not allowed")
 	}
 
 	if c.Charset == "" {
-		return errors.Errorf("empty charset not allowed")
+		return errors.New("empty charset not allowed")
 	}
 
 	if c.SlaveID == 0 {
-		return errors.Errorf("empty slave_id not allowed")
+		return errors.New("empty slave_id not allowed")
 	}
 
 	if c.Flavor == "" {

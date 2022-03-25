@@ -37,6 +37,9 @@ func HttpPostJson(url string, body interface{}) (responseBody []byte, err error)
 
 	client.Timeout = 5 * time.Second
 	resp, err := client.Do(req)
+	if err != nil {
+		return
+	}
 
 	defer resp.Body.Close()
 

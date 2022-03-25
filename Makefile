@@ -5,6 +5,7 @@ CGO = CGO_ENABLED=0
 GOARCH = GOARCH=amd64
 LINUX_GOOS = GOOS=linux
 WINDOWS_GOOS = GOOS=windows
+LD_FLAGS = '-s -w'
 
 .PHONY: build start push test
 
@@ -19,7 +20,7 @@ gen-bindata: build-web
 
 build-linux:
 	GOPROXY=https://goproxy.cn,direct GO111MODULE=on ${GOEXEC} mod vendor
-	${CGO} ${GOARCH} ${LINUX_GOOS} ${GOEXEC} build -o bin/go-mysql-replication
+	${CGO} ${GOARCH} ${LINUX_GOOS} ${GOEXEC} build -ldflags ${LD_FLAGS} -o bin/go-mysql-replication
 
 build-windows:
 	GOPROXY=https://goproxy.cn,direct GO111MODULE=on ${GOEXEC} mod vendor

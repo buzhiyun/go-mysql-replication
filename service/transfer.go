@@ -109,6 +109,7 @@ func (t *transfer) Start() (msg string) {
 	if t.transferEnable {
 		return "已经有transfer存活，无需再次启动"
 	}
+	//var schema string  // 给报警的时候提示是哪一个库用
 	// 开启传输线程
 	go func() {
 		golog.Infof("transfer start")
@@ -178,10 +179,10 @@ func (t *transfer) Start() (msg string) {
 						return
 
 					}
+					message.SendAllChannel("发生表结构变更", v.Schema)
 					prometheus.UpdateActionNum("ddl", string(v.Schema))
 
 				case []*model.RowMsg:
-
 					rowMsgs = append(rowMsgs, v...)
 					needFlush = int64(len(rowMsgs)) >= config.GlobalConfig.BulkSize
 				}
@@ -242,6 +243,7 @@ func (t *transfer) Start() (msg string) {
 				// 保存gtid的代码
 				golog.Info("save GTIDSet: ", GTID)
 				if err := config.SaveGtidSet(GTID); err != nil {
+					message.SendAllChannel("【告警】保存GTID错误", "gocanal实例: "+config.GlobalConfig.Addr+"\n"+err.Error())
 					golog.Errorf("gtidset 保存错误: %v", err.Error())
 				}
 
@@ -297,11 +299,12 @@ func (t *transfer) HealthCheck() {
 
 				}
 
+				// 通知
 				if CanalInstance.canalEnable == false || t.endpointEnable == false {
 
-					message.SendAllChannel("主机 : " + t.hostname + "  \nIP : " + t.ipAddress +
-						"  \n数据库 : " + config.GlobalConfig.Addr + "   \ngo-canal  状态 : " + statusMap[CanalInstance.canalEnable] +
-						".   \nendpoint : " + t.endpoint.String() + "  状态 : " + statusMap[t.endpointEnable])
+					message.SendAllChannel("go-canal 异常", "主机 : "+t.hostname+"  \nIP : "+t.ipAddress+
+						"  \n数据库 : "+config.GlobalConfig.Addr+"   \ngo-canal  状态 : "+statusMap[CanalInstance.canalEnable]+
+						".   \nendpoint : "+t.endpoint.String()+"  状态 : "+statusMap[t.endpointEnable])
 				}
 				//golog.Info("健康检查结束")
 

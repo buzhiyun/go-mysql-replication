@@ -28,10 +28,10 @@ type GtidMsg struct {
 }
 
 type DdlMsg struct {
-	Action        string
-	Schema        string
-	Query         string
-	ErrorCode     uint16
-	ExecutionTime uint32
-	StatusVars    []byte
+	Action        string `json:"action"`
+	Schema        string `json:"schema"`
+	Query         string `json:"query"`
+	ErrorCode     uint16 `json:"error_code"`
+	ExecutionTime uint32 `json:"execution_time"`
+	StatusVars    []byte `json:"status_vars"`
 }

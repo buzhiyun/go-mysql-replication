@@ -4,7 +4,6 @@ import (
 	"github.com/Shopify/sarama"
 	"github.com/buzhiyun/go-mysql-replication/config"
 	"github.com/kataras/golog"
-	"strconv"
 	"strings"
 	"time"
 )
@@ -98,19 +97,20 @@ func (k *KafkaEndpoint) sendRowMessage(data []byte) (err error) {
 
 	// kafka 消息的 key
 	// 如果用相同的key 会造成分区不均匀
-	key := strconv.FormatInt(time.Now().UTC().UnixNano(), 10)
+	// 这里直接采用强制到一个分区 ， 使得消息按顺序
+	// key := strconv.FormatInt(time.Now().UTC().UnixNano(), 10)
 
 	m := &sarama.ProducerMessage{
 		Topic:     config.GlobalConfig.KafkaTopic,
 		Value:     value,
-		Key:       sarama.StringEncoder(key),
+		Key:       sarama.StringEncoder("0"),
 		Timestamp: time.Now(),
 	}
 
 	_, _, err = k.producer.SendMessage(m)
 
 	if err != nil {
-		golog.Errorf("kafka 发送失败: %s \n topic: %v. key: %v. content: %s", err, config.GlobalConfig.KafkaTopic, key, data)
+		golog.Errorf("kafka 发送失败: %s \n topic: %v. content: %s", err, config.GlobalConfig.KafkaTopic, data)
 		return err
 	}
 	return nil

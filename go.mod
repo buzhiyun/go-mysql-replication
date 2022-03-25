@@ -11,8 +11,7 @@ require (
 	github.com/google/go-querystring v1.1.0 // indirect
 	github.com/iris-contrib/middleware/cors v0.0.0-20191219204441-78279b78a367
 	github.com/json-iterator/go v1.1.10
-	github.com/juju/errors v0.0.0-20200330140219-3fe23663418f
-	github.com/juju/testing v0.0.0-20210324180055-18c50b0c2098 // indirect
+	github.com/juju/errors v0.0.0-20220316043928-e10eb17a9eeb // indirect
 	github.com/k0kubun/colorstring v0.0.0-20150214042306-9440f1994b88 // indirect
 	github.com/kataras/golog v0.1.6
 	github.com/kataras/iris/v12 v12.1.2

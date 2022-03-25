@@ -41,15 +41,6 @@ kafka_version: 0.10.2.2
 
 
 notice: # 告警通知
-  email:    # 邮件
-    host: smtp.exmail.qq.com
-    port: 465
-    login_user: "woshishui@qq.com"
-    login_passwd: "buzhidao"
-    to_user:
-      - "吹牛逼<zhenniubi@qq.com>"
-  dingtalk_robot:    # 钉钉机器人
-    webhook_url: https://oapi.dingtalk.com/robot/send?access_token=XXXXXXXXXXXXXXXXXXXXXXX
-#    secret: sdkfjlaksdjfljsiofjeqws7d99fsdf78sdaf87sd98f7as78dfs78df7sfdsa
-  wechat_work_robot:     # 企业微信机器人
-    webhook_url: "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+  septnet_msg:
+    api: http://septnet/
+    to_users: "177"

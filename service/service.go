@@ -27,6 +27,9 @@ var TransferInstance = transfer{
 //}
 
 func Start() (err error) {
+	// 初始化告警通知通道
+	message.InitChannels()
+
 	// 开启传输线程
 	TransferInstance.Start()
 
@@ -42,9 +45,6 @@ func Start() (err error) {
 	err = CanalInstance.initialize()
 	CanalInstance.firstsStart = true
 	CanalInstance.StartUpFromGtidSet()
-
-	// 初始化告警通知通道
-	message.InitChannels()
 
 	TransferInstance.HealthCheck()
 	return
