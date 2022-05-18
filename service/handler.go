@@ -131,10 +131,11 @@ func (h *canalHandler) OnRow(e *canal.RowsEvent) error {
 		requests = make([]*model.RowMsg, 0, len(e.Rows))
 	}
 
-	v := &model.RowMsg{}
+
 
 	if e.Action == canal.UpdateAction {
 		for i := 0; i < len(e.Rows); i++ {
+			v := &model.RowMsg{}
 			if (i+1)%2 == 0 {
 				v.Table = e.Table.Name
 				v.Schema = e.Table.Schema
@@ -148,6 +149,7 @@ func (h *canalHandler) OnRow(e *canal.RowsEvent) error {
 		}
 	} else {
 		for _, row := range e.Rows {
+			v := &model.RowMsg{}
 			v.Table = e.Table.Name
 			v.Schema = e.Table.Schema
 			v.Key = e.Table.Schema + "." + e.Table.Name
