@@ -50,6 +50,7 @@ func (k *KafkaEndpoint) Connect() error {
 
 	var err error
 	var client sarama.Client
+	golog.Infof("kafka addr: %s", config.GlobalConfig.KafkaAddr)
 	ls := strings.Split(config.GlobalConfig.KafkaAddr, ",")
 	client, err = sarama.NewClient(ls, cfg)
 	if err != nil {

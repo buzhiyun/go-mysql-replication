@@ -175,6 +175,13 @@ func (c *Canal) StartUpFromGtidSet() {
 	// 这段写的有点繁琐  后期改造
 	if c.firstsStart {
 		c.canalHandler = newCanalHandler()
+		if c.canalHandler == nil {
+			golog.Warnf("no handler  !!!!!")
+		}
+		if c.canal == nil {
+			golog.Warnf("canal is null  !!!!!")
+		}
+
 		c.canal.SetEventHandler(c.canalHandler)
 		c.firstsStart = false
 		gtid := c.fixGtid()
@@ -273,6 +280,9 @@ func (c *Canal) runFromPosition(position mysql.Position) (err error) {
 
 func (c *Canal) createCanal() (err error) {
 	c.canal, err = canal.NewCanal(c.canalCfg)
+	if err != nil {
+		golog.Errorf("canal 初始化异常, %s", err.Error())
+	}
 	return
 }
 

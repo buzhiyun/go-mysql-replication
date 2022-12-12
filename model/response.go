@@ -18,6 +18,6 @@ type MQResponse struct {
 	Table     string      `json:"table"`
 	Raw       interface{} `json:"raw,omitempty"`
 	Values    interface{} `json:"values"`
-	OldValues interface{} `json:"oldvalues"`
+	OldValues interface{} `json:"oldvalues,omitempty"`
 	ByteArray []byte      `json:"-"`
 }

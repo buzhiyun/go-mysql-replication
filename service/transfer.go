@@ -1,6 +1,7 @@
 package service
 
 import (
+	"fmt"
 	"github.com/buzhiyun/go-mysql-replication/config"
 	"github.com/buzhiyun/go-mysql-replication/message"
 	"github.com/buzhiyun/go-mysql-replication/model"
@@ -179,7 +180,8 @@ func (t *transfer) Start() (msg string) {
 						return
 
 					}
-					message.SendAllChannel("发生表结构变更", v.Schema)
+					message.SendAllChannel("发生表结构变更", fmt.Sprintf("> db: %s\n> SQL:%s", v.Schema, v.Query))
+					//message.SendAllChannel("发生表结构变更", v.Schema)
 					prometheus.UpdateActionNum("ddl", string(v.Schema))
 
 				case []*model.RowMsg:
@@ -206,16 +208,26 @@ func (t *transfer) Start() (msg string) {
 						continue
 					}
 					kvm := rowMap(row, meta.TableInfo)
-					resp := new(model.MQResponse)
-					resp.Action = row.Action
-					resp.Timestamp = row.Timestamp
-					resp.Table = row.Table
-					resp.Schema = row.Schema
-					resp.Values = kvm
+					resp := model.MQResponse{
+						Action:    row.Action,
+						Timestamp: row.Timestamp,
+						Schema:    row.Schema,
+						Table:     row.Table,
+						Values:    kvm,
+					}
+					//resp := new(model.MQResponse)
+					//resp.Action = row.Action
+					//resp.Timestamp = row.Timestamp
+					//resp.Table = row.Table
+					//resp.Schema = row.Schema
+					//resp.Values = kvm
 
 					if canal.UpdateAction == row.Action {
 						resp.OldValues = oldRowMap(row, meta.TableInfo)
 					}
+					//golog.Infof("resp.Values: %s", resp.Values)
+					//time.Sleep(5 * time.Second)
+					//golog.Infof("resp: %#v", resp)
 
 					body, err := json.Marshal(resp)
 					//golog.Infof("%s",resp.Values)

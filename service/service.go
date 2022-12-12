@@ -43,6 +43,9 @@ func Start() (err error) {
 
 	// 开启canal
 	err = CanalInstance.initialize()
+	if err != nil {
+		golog.Fatalf("启动失败，canal 未能初始化, %s", err.Error())
+	}
 	CanalInstance.firstsStart = true
 	CanalInstance.StartUpFromGtidSet()
 

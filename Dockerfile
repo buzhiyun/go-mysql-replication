@@ -17,12 +17,21 @@ ADD . /app
 COPY --from=web-build /app/web/dist /app/assets
 WORKDIR /app
 # 这里我比较懒，还是直接把前端的包bindata到程序里吧
-RUN ls -al /app/assets && go mod vendor && go get -mod=mod -u github.com/go-bindata/go-bindata/... && \
+# RUN ls -al /app/assets && go mod vendor && go get -mod=mod -u github.com/go-bindata/go-bindata/... && \
+RUN ls -al /app/assets && go mod vendor && go get -u github.com/go-bindata/go-bindata/... && \
   go-bindata ./assets/... && go build -ldflags '-s -w' -o bin/go-mysql-replication && cp config.yml bin/
+
+
+
+#FROM golang:1.16-alpine3.14 as compiler
+#ADD . /app
+#WORKDIR /app
+#RUN cp config.yml bin/
 
 
 # 最终镜像
 FROM alpine:3.14
 WORKDIR /app
-COPY --from=compiler /app/bin /app
+COPY --from=compiler /app/bin/go-mysql-replication /app/go-mysql-replication
+COPY --from=compiler /app/bin/config.yml /app/config.yml
 CMD ["/app/go-mysql-replication","-c","config.yml"]
