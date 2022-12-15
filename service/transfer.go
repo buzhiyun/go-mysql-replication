@@ -180,7 +180,7 @@ func (t *transfer) Start() (msg string) {
 						return
 
 					}
-					message.SendAllChannel("发生表结构变更", fmt.Sprintf("> db: %s\n> SQL:%s", v.Schema, v.Query))
+					message.SendAllChannel("发生数据库DDL事件", fmt.Sprintf("db: %s\nSQL:%s", v.Schema, v.Query))
 					//message.SendAllChannel("发生表结构变更", v.Schema)
 					prometheus.UpdateActionNum("ddl", string(v.Schema))
 
